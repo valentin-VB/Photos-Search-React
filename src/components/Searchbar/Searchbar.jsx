@@ -9,6 +9,9 @@ const Searchbar = ({ onSubmit }) => {
   };
 
   const handelSubmit = (values, actions) => {
+    if (values.searchQuery.trim() === '') {
+      return;
+    }
     onSubmit(values.searchQuery);
     actions.resetForm();
   };

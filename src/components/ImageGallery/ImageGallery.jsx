@@ -9,29 +9,30 @@ class ImageGallery extends Component {
   state = {
     photos: [],
     status: 'idle',
-    page: 1,
+    page: 0,
     errore: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { photos, page } = this.state;
-    console.log('coci');
-    if (prevProps.searchQuery !== this.props.searchQuery) {
-      this.setState({ photos: [] });
+    const { page } = this.state;
+    const { searchQuery } = this.props;
+    console.log('searchQuery', searchQuery);
+
+    if (prevProps.searchQuery !== searchQuery) {
+      this.setState({ photos: [], page: 1 });
+      return;
     }
 
-    if (
-      prevState.page !== page ||
-      prevProps.searchQuery !== this.props.searchQuery
-    ) {
+    if (prevState.page !== page || prevProps.searchQuery !== searchQuery) {
       this.setState({ status: 'pending' });
       try {
-        const images = await api.fetchPhotos(this.props.searchQuery, page);
+        const images = await api.fetchPhotos(searchQuery, page);
 
         if (images.hits.length === 0 && prevState.status !== 'rejected') {
           this.setState({ status: 'rejected' });
           throw new Error('No images');
         }
+
         this.setState(prevState => ({
           photos: [...prevState.photos, ...images.hits],
           status: 'resolved',
@@ -42,13 +43,12 @@ class ImageGallery extends Component {
     }
   }
 
-  handelBtnClick = evt => {
+  handelBtnClick = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   render() {
     const { status, photos } = this.state;
-    console.log('photos', photos);
 
     if (status === 'idle') {
       return (
@@ -58,30 +58,36 @@ class ImageGallery extends Component {
       );
     }
 
-    if (status === 'pending') {
-      return <Loader />;
+    if (status === 'rejected') {
+      return (
+        <h2 style={{ textAlign: 'center', marginTop: 15 }}>
+          Sorry, no images were found for this search query
+        </h2>
+      );
     }
 
-    if (status === 'resolved') {
-      return (
-        <>
+    return (
+      <>
+        {photos.length > 0 && (
           <GalleryList>
             {photos.map(image => (
               <ImageGalleryItem
                 key={image.id}
                 tags={image.tags}
                 smallPhoto={image.webformatURL}
+                largePhoto={image.largeImageURL}
               ></ImageGalleryItem>
             ))}
           </GalleryList>
-          <LoadMoreBtn type="submit" onClick={this.handelBtnClick} />
-        </>
-      );
-    }
+        )}
 
-    if (status === 'rejected') {
-      return <h1>Гамно собаче</h1>;
-    }
+        {status === 'pending' && <Loader />}
+
+        {status === 'resolved' && (
+          <LoadMoreBtn type="submit" onClick={this.handelBtnClick} />
+        )}
+      </>
+    );
   }
 }
 

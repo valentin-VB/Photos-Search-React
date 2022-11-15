@@ -2,7 +2,7 @@
   "name": "react-app-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://valentin-VB.github.io/Photos-Search-React/",
+"homepage": "https://valentin-VB.github.io/Photos-Search-React/",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@testing-library/jest-dom": "^5.16.3",

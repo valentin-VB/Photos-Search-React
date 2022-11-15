@@ -12,9 +12,8 @@ export const Btn = styled.button`
   color: ${p => p.theme.colors.white};
   cursor: pointer;
   transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  margin-left: ${p => p.theme.space[3]}px;
   margin-top: ${p => p.theme.space[5]}px;
-
+  margin-bottom: ${p => p.theme.space[5]}px;
   :hover:not(:disabled),
   :focus:not(:disabled) {
     background-color: teal;

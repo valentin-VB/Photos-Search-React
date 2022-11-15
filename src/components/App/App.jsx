@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Searchbar from '../Searchbar';
 import ImageGallery from '../ImageGallery';
-import LoadMoreBtn from 'components/Load More Btn';
 
 export class App extends Component {
   state = {
@@ -18,7 +17,6 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.handelFormSubmit}></Searchbar>
         <ImageGallery searchQuery={searchQuery}></ImageGallery>
-        {/* {searchQuery && <LoadMoreBtn></LoadMoreBtn>} */}
       </>
     );
   }
