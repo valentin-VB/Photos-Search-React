@@ -13,4 +13,8 @@ export const fetchPhotos = async (searchQuery, page) => {
   return await response.json();
 };
 
-export default { fetchPhotos };
+const service = {
+  fetchPhotos,
+};
+
+export default service;

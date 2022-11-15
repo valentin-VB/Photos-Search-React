@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import Button from 'components/Button';
 import { Header, Input, StyledForm } from './Searchbar.styled';
 
