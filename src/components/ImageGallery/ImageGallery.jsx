@@ -10,21 +10,25 @@ class ImageGallery extends Component {
     photos: [],
     status: 'idle',
     page: 0,
-    errore: null,
+    error: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { page } = this.state;
+    const { page, status } = this.state;
     const { searchQuery } = this.props;
-    console.log('searchQuery', searchQuery);
 
     if (prevProps.searchQuery !== searchQuery) {
-      this.setState({ photos: [], page: 1 });
+      this.setState({ photos: [], page: 1, status: 'idle' });
       return;
     }
 
-    if (prevState.page !== page || prevProps.searchQuery !== searchQuery) {
+    if (
+      prevState.page !== page ||
+      prevProps.searchQuery !== searchQuery ||
+      status === 'idle'
+    ) {
       this.setState({ status: 'pending' });
+
       try {
         const images = await api.fetchPhotos(searchQuery, page);
 
